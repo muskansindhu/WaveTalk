@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {%block content%}
-<h3>Welcome to room {{room_code}}, {{name}}</h3>
+<div class="message-box">
+    <h4>Chat Room: {{room}}</h4>
+    <div class="messages" id="messages"></div>
+    <div class="inputs">
+        <input type="text" rows="3" placeholder="Type message..." name="message" id="message">
+        <button type="submit" name="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+</div>
 {% endblock %}
