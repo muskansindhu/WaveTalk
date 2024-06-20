@@ -58,6 +58,23 @@ def connect():
     print(f"{username} joined room {room}")
 
 
+@socketio.on("message")
+def message(data):
+    room = session.get("room")
+    if room not in rooms:
+        return 
+    
+    content = {
+        "name": session.get("username"),
+        "message": data["data"],
+        "datetime": get_current_datetime()
+    }
+    send(content, to=room)
+    rooms[room]["messages"].append(content)
+    print(f"{session.get('username')} said: {data['data']}")
+
+
+
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")

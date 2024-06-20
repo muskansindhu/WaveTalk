@@ -20,7 +20,10 @@ function loadForm(roomType){
 var socketio = io();
 
 function sendMessage(){
-    console.log("send");
+    const message = document.getElementById("message")
+    if (message.value == "") return;
+    socketio.emit("message", { data: message.value })
+    message.value=""
 }
 
 function createMessage(name, message, datetime){
