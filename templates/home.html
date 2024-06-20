@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<button id="join-room" onclick='loadForm(this.value)' value="join-room">Join Room</button>
+<button id="create-room" onclick='loadForm(this.value)' value="create-room">Create Room</button>
+<div class="room-form" id="room-form"></div>
+{% endblock %}
