@@ -3,11 +3,13 @@ from flask_socketio import join_room, leave_room, send, SocketIO
 import random
 import string
 from utils import get_current_datetime
+from aiortc import RTCPeerConnection, MediaStreamTrack
 
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
+peer_connection = RTCPeerConnection()
 
 rooms={}
 
@@ -32,7 +34,6 @@ def home():
 
     return render_template("home.html")
             
-
 @app.route("/room", methods=["GET"])
 def room():
     room = session.get("room")
@@ -40,7 +41,6 @@ def room():
     if room is None or session.get("username") is None or room not in rooms:
         return redirect(url_for('home'))
     return render_template("room.html", room=room, username=username, messages=rooms[room]["messages"])
-
 
 @socketio.on("connect")
 def connect():
@@ -57,7 +57,6 @@ def connect():
     rooms[room]["members"] += 1
     print(f"{username} joined room {room}")
 
-
 @socketio.on("message")
 def message(data):
     room = session.get("room")
@@ -73,8 +72,6 @@ def message(data):
     rooms[room]["messages"].append(content)
     print(f"{session.get('username')} said: {data['data']}")
 
-
-
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")
@@ -87,6 +84,35 @@ def disconnect():
             del rooms[room]
     send({"name": username, "message": "has left the room", "datetime": get_current_datetime()}, to=room)
     print(f"{username} left room {room}")
+
+@socketio.on("call")
+def handle_call(data):
+    room = session.get("room")
+    username = session.get("username")
+    offer = data.get("offer")
+    if room and offer:
+        socketio.emit("new-peer-offer", {
+            "peer": username,
+            "offer": offer
+        }, room=room, skip_sid=request.sid)
+
+@socketio.on("answer")
+def handle_answer(data):
+    room = session.get("room")
+    answer = data.get("answer")
+    if room and answer:
+        socketio.emit("peer-answer", {
+            "answer": answer
+        }, room=room, skip_sid=request.sid)
+
+@socketio.on("ice-candidate")
+def handle_ice_candidate(data):
+    room = session.get("room")
+    candidate = data.get("candidate")
+    if room and candidate:
+        socketio.emit("ice-candidate", {
+            "candidate": candidate
+        }, room=room, skip_sid=request.sid)
 
 
 if __name__ == "__main__":

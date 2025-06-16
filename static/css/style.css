@@ -1,0 +1,11 @@
+#local-video {
+  border: 1px solid;
+  height: 300px;
+  width: 400px;
+}
+
+#remote-video {
+  border: 1px solid;
+  height: 300px;
+  width: 400px;
+}

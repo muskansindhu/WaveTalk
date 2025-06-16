@@ -1,12 +1,22 @@
-{% extends 'base.html' %}
-
-{%block content%}
+{% extends 'base.html' %} {%block content%}
 <div class="message-box">
-    <h4>Chat Room: {{room}}</h4>
-    <div class="messages" id="messages"></div>
-    <div class="inputs">
-        <input type="text" rows="3" placeholder="Type message..." name="message" id="message">
-        <button type="submit" name="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
-    </div>
+  <h4>Chat Room : {{room}}</h4>
+  <div id="username" style="display: none">{{ username }}</div>
+  <div id="room" style="display: none">{{ room }}</div>
+  <video id="local-video" autoplay muted playsinline></video>
+  <video id="remote-video" autoplay playsinline></video>
+  <div class="messages" id="messages"></div>
+  <div class="inputs">
+    <input
+      type="text"
+      rows="3"
+      placeholder="Type message..."
+      name="message"
+      id="message"
+    />
+    <button type="submit" name="send-btn" id="send-btn" onclick="sendMessage()">
+      Send
+    </button>
+  </div>
 </div>
 {% endblock %}
