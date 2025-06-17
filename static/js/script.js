@@ -39,12 +39,13 @@ function sendMessage() {
 }
 
 function createMessage(name, message, datetime) {
+  const timeOnly = datetime.split("||")[1];
   const content = `
     <div>
         <span>
-            <strong>${name}</strong>: ${message} 
+            <strong class="name-highlight">${name}</strong>: ${message} 
         </span>
-        <span class="muted"> ${datetime} </span>
+       <span class="muted">${timeOnly}</span>
     </div>
     `;
   messages.innerHTML += content;
@@ -145,6 +146,21 @@ window.addEventListener("DOMContentLoaded", async () => {
         await remotePeer.addIceCandidate(new RTCIceCandidate(candidate));
       } catch (err) {
         console.error("Error adding received ICE candidate", err);
+      }
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const messageInput = document.getElementById("message");
+
+  messageInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        return;
+      } else {
+        event.preventDefault();
+        sendMessage();
       }
     }
   });

@@ -238,7 +238,7 @@ footer {
   right: 20px;
 }
 
-.chat-input input {
+.chat-input #message {
   flex: 1;
   padding: 12px;
   border: 1px solid #475569;
@@ -246,6 +246,7 @@ footer {
   border-radius: 8px;
   color: #f1f5f9;
   font-size: 1rem;
+  resize: none;
 }
 
 .chat-input input::placeholder {
@@ -266,4 +267,15 @@ footer {
 .chat-input button:hover {
   transform: scale(1.02);
   box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+}
+
+.muted {
+  font-size: 0.7rem;
+  color: #a0a0a0;
+  margin-left: 8px;
+}
+
+.name-highlight {
+  color: #89e9fa;
+  font-weight: 700;
 }
