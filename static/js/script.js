@@ -1,19 +1,32 @@
 function loadForm(roomType) {
-  let formContentDiv = document.getElementById("room-form");
-  if (roomType == "join-room") {
-    formContentDiv.innerHTML = `<form method="post">
-        <input type="hidden" value="join-room" id="request-type" name="request-type">
-        <input type="text" id="name" name="name" placeholder="Enter Name">
-        <input type="text" id="room-code" name="room-code" placeholder="Enter Room Code">
-        <button type="submit">Join</button>
-        </form>`;
-  } else if (roomType == "create-room") {
-    formContentDiv.innerHTML = `<form method="post">
-        <input type="hidden" value="create-room" id="request-type" name="request-type">
-        <input type="text" id="name" name="name" placeholder="Enter Name">
-        <button type="submit">Create</button>
-        </form>`;
+  const formContentDiv = document.getElementById("room-form");
+
+  let formHTML = "";
+
+  if (roomType === "join-room") {
+    formHTML = `
+      <form method="post" class="styled-form">
+        <input type="hidden" value="join-room" name="request-type">
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+        <input type="text" id="room-code" name="room-code" placeholder="Room Code" required />
+        <button class="primary-btn" type="submit">Join Room</button>
+      </form>
+    `;
+  } else if (roomType === "create-room") {
+    formHTML = `
+      <form method="post" class="styled-form">
+        <input type="hidden" value="create-room" name="request-type">
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+        <button class="primary-btn" type="submit">Create Room</button>
+      </form>
+    `;
   }
+
+  formContentDiv.classList.remove("show", "hidden");
+  formContentDiv.innerHTML = formHTML;
+  setTimeout(() => {
+    formContentDiv.classList.add("show");
+  }, 10);
 }
 
 var socketio = io();

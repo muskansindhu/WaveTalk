@@ -1,7 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<section class="hero-section">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h1>WaveTalk</h1>
+      <p>Secure, high-quality video meetings – instantly.</p>
+      <div class="button-group">
+        <button
+          class="primary-btn"
+          onclick="loadForm(this.value)"
+          value="join-room"
+        >
+          Join a Room
+        </button>
+        <button
+          class="primary-btn"
+          onclick="loadForm(this.value)"
+          value="create-room"
+        >
+          Create a Room
+        </button>
+      </div>
+    </div>
 
-{%block content%}
-<button id="join-room" onclick='loadForm(this.value)' value="join-room">Join Room</button>
-<button id="create-room" onclick='loadForm(this.value)' value="create-room">Create Room</button>
-<div class="room-form" id="room-form"></div>
+    <div class="form-wrapper">
+      <div id="room-form" class="room-form hidden"></div>
+    </div>
+  </div>
+</section>
 {% endblock %}
