@@ -1,27 +1,44 @@
 {% extends 'base.html' %} {% block content %}
 <div class="meet-layout">
-  <div class="video-area">
-    <video id="local-video" autoplay muted playsinline></video>
-    <video id="remote-video" autoplay playsinline></video>
+  <div class="room-info-bar">
+    <span class="room-lock">🔒 Room Code:</span>
+    <span id="room-code-text">{{ room }}</span>
+    <button id="copy-room-code" class="copy-btn" onclick="copyRoomCode()">
+      📋
+    </button>
   </div>
 
-  <div class="chat-sidebar">
+  <div class="video-area">
+    <div class="video-grid">
+      <video id="remote-video" autoplay playsinline></video>
+      <video id="local-video" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <div class="controls-bar floating-controls">
+    <div class="control-buttons">
+      <button id="toggle-chat" class="ctrl-btn chat-btn" onclick="toggleChat()">
+        💬
+      </button>
+      <button id="leave-room" class="ctrl-btn leave-btn">🚪</button>
+    </div>
+  </div>
+
+  <div id="chat-sidebar" class="chat-sidebar">
     <div class="chat-header">
-      <h3>🔒 Room Code: {{ room }}</h3>
-      <div id="username" style="display: none">{{ username }}</div>
-      <div id="room" style="display: none">{{ room }}</div>
+      <h3>Chat</h3>
+      <button class="close-chat" onclick="toggleChat()">✖</button>
     </div>
 
     <div class="chat-messages" id="messages"></div>
 
     <div class="chat-input">
-      <textarea
-        id="message"
-        placeholder="Type a message..."
-        rows="1"
-      ></textarea>
+      <textarea id="message" placeholder="Type a message..."></textarea>
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
+
+  <div id="username" style="display: none">{{ username }}</div>
+  <div id="room" style="display: none">{{ room }}</div>
 </div>
 {% endblock %}
